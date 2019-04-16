@@ -3,6 +3,9 @@ autoload -Uz compinit colors vcs_info
 colors
 compinit
 
+# Make sure moving by whole word can stop at directories
+WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+
 # history support, time reporting, auto-cd
 HISTFILE=~/.zhistory
 HISTSIZE=5000
@@ -19,11 +22,6 @@ if [[ -a "$HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.z
     source "$HOME/.zsh/zsh-history-substring-search/zsh-history-substring-search.zsh"
     bindkey '^[[A' history-substring-search-up
     bindkey '^[[B' history-substring-search-down
-fi
-
-# fish-like auto-suggestions
-if [[ -a "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh" ]]; then
-    source "$HOME/.zsh/zsh-autosuggestions/zsh-autosuggestions.zsh"
 fi
 
 # extra autocompletions
@@ -119,3 +117,8 @@ alias dcb="docker-compose build"
 alias dcbp="docker-compose build --pull"
 alias dcr="docker-compose run --rm"
 alias dcu="docker-compose up"
+
+# tool aliases
+if [[ -x "$(command -v nvim)" ]]; then
+    alias vim="nvim"
+fi
