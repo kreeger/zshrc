@@ -57,7 +57,9 @@ _setup_ps1
 
 # env
 export EDITOR=nvim
-export PATH=~/bin:$PATH
+export GOPATH=~/src/golang
+export GOBIN=$GOPATH/bin
+export PATH=~/bin:$GOBIN:$PATH
 
 # dev aliases
 alias ll="ls -FlaGh"
