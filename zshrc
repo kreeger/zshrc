@@ -40,7 +40,6 @@ zstyle ':vcs_info:*' actionformats '%F{cyan}%b%f|%F{yellow}%a%f%u%c'  # Format s
 
 # asdf
 source $HOME/.asdf/asdf.sh
-source $HOME/.asdf/completions/asdf.bash
 
 # prompts
 _vcs_info_wrapper() {
