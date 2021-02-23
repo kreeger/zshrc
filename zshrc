@@ -29,6 +29,15 @@ if [[ -a "$HOME/.zsh/zsh-completions/zsh-completions.plugin.zsh" ]]; then
     fpath=($HOME/.zsh/zsh-completions/src $fpath)
 fi
 
+# google cloud sdk
+if [[ -a "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc" ]]; then
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/path.zsh.inc"
+fi
+
+if [[ -a "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc" ]]; then
+    source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
+fi
+
 # zstyle declarations
 zstyle ':completion:*' completer _complete _correct _approximate
 zstyle ':vcs_info:*' enable git  # I only use git
@@ -122,4 +131,9 @@ alias dcu="docker-compose up"
 # tool aliases
 if [[ -x "$(command -v nvim)" ]]; then
     alias vim="nvim"
+fi
+
+# private aliases
+if [[ -a "$HOME/.zsh/private.zsh" ]]; then
+    source $HOME/.zsh/private.zsh
 fi
