@@ -122,11 +122,11 @@ function git-prune-branches() {
 }
 
 # docker aliases
-alias dc="docker-compose"
-alias dcb="docker-compose build"
-alias dcbp="docker-compose build --pull"
-alias dcr="docker-compose run --rm"
-alias dcu="docker-compose up"
+alias dc="docker compose"
+alias dcb="docker compose build"
+alias dcbp="docker compose build --pull"
+alias dcr="docker compose run --rm"
+alias dcu="docker compose up"
 
 # tool aliases
 if [[ -x "$(command -v nvim)" ]]; then
