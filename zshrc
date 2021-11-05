@@ -5,6 +5,7 @@ compinit
 
 # Make sure moving by whole word can stop at directories
 WORDCHARS='*?_-.[]~=&;!#$%^(){}<>'
+ZSH_CACHE_DIR="$HOME/.zsh/cache"
 
 # history support, time reporting, auto-cd
 HISTFILE=~/.zhistory
@@ -38,6 +39,11 @@ if [[ -a "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completio
     source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 
+# pythonpath additions
+if [[ -a "$HOME/src/oreilly/tools/chassis" ]]; then
+    export PYTHONPATH="${PYTHONPATH}:$HOME/src/oreilly/tools/chassis"
+fi
+
 # zstyle declarations
 zstyle ':completion:*' completer _complete _correct _approximate
 zstyle ':vcs_info:*' enable git  # I only use git
@@ -48,7 +54,13 @@ zstyle ':vcs_info:git*' formats "%F{cyan}%b%f%u%c"  # Normal format string, with
 zstyle ':vcs_info:*' actionformats '%F{cyan}%b%f|%F{yellow}%a%f%u%c'  # Format string when special actions are happening
 
 # asdf
-source $HOME/.asdf/asdf.sh
+if [[ -a "$HOME/.asdf/asdf.sh" ]]; then
+    source $HOME/.asdf/asdf.sh
+fi
+
+# plugins
+mkdir -p "$ZSH_CACHE_DIR"
+source "$HOME/.zsh/dotenv.zsh"
 
 # prompts
 _vcs_info_wrapper() {
@@ -95,6 +107,10 @@ function git-current-remote() {
 function grevs() {
     git rev-list --count $1..
 }
+function gri() {
+    REVISION_COUNT=$(grevs $1)
+    git rebase -iS HEAD~$REVISION_COUNT
+}
 function gp() {
 	if [[ $(git-current-remote | head -c1 | wc -c) -ne 0 ]]; then
     	git push $(git-current-remote) $(git-branch-name)
@@ -122,11 +138,11 @@ function git-prune-branches() {
 }
 
 # docker aliases
-alias dc="docker compose"
-alias dcb="docker compose build"
-alias dcbp="docker compose build --pull"
-alias dcr="docker compose run --rm"
-alias dcu="docker compose up"
+alias dc="docker-compose"
+alias dcb="docker-compose build"
+alias dcbp="docker-compose build --pull"
+alias dcr="docker-compose run --rm"
+alias dcu="docker-compose up"
 
 # tool aliases
 if [[ -x "$(command -v nvim)" ]]; then
