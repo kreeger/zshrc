@@ -82,10 +82,9 @@ export GOBIN=$GOPATH/bin
 export PATH=~/bin:$GOBIN:$PATH
 
 # dev aliases
-alias ll="ls -FlaGh"
+alias ll="ls -FlaGh --color=always"
 alias resource="source ~/.zshrc"
 alias mkdir="mkdir -p"
-alias s="subl"
 
 # git aliases
 alias gco="git checkout"
@@ -112,11 +111,11 @@ function gri() {
     git rebase -iS HEAD~$REVISION_COUNT
 }
 function gp() {
-	if [[ $(git-current-remote | head -c1 | wc -c) -ne 0 ]]; then
-    	git push $(git-current-remote) $(git-branch-name)
-	else
-    	git push --set-upstream origin $(git-branch-name)
-	fi
+    if [[ $(git-current-remote | head -c1 | wc -c) -ne 0 ]]; then
+    git push $(git-current-remote) $(git-branch-name)
+    else
+    git push --set-upstream origin $(git-branch-name)
+    fi
 }
 function gll() {
     REMOTE=${1:-$(git-current-remote)}
