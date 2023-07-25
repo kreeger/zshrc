@@ -53,6 +53,11 @@ zstyle ':vcs_info:git:*' check-for-changes true  # Make sure updates are live-ch
 zstyle ':vcs_info:git*' formats "%F{cyan}%b%f%u%c"  # Normal format string, with unstaged/staged dots
 zstyle ':vcs_info:*' actionformats '%F{cyan}%b%f|%F{yellow}%a%f%u%c'  # Format string when special actions are happening
 
+# homebrew
+if [[ -a "/opt/homebrew/bin/brew" ]]; then
+    eval "$(/opt/homebrew/bin/brew shellenv)"
+fi
+
 # asdf
 if [[ -a "$HOME/.asdf/asdf.sh" ]]; then
     source $HOME/.asdf/asdf.sh
@@ -80,6 +85,10 @@ export EDITOR=nvim
 export GOPATH=~/src/golang
 export GOBIN=$GOPATH/bin
 export PATH=~/bin:$GOBIN:$PATH
+
+if [[ -d "/opt/homebrew/share/google-cloud-sdk/bin" ]]; then
+    export PATH=/opt/homebrew/share/google-cloud-sdk/bin:$PATH
+fi
 
 # dev aliases
 alias ll="ls -FlaGh"
