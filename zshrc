@@ -44,6 +44,16 @@ if [[ -a "$HOME/src/oreilly/tools/chassis" ]]; then
     export PYTHONPATH="${PYTHONPATH}:$HOME/src/oreilly/tools/chassis"
 fi
 
+# Android SDK additions
+
+if [[ -a "$HOME/Library/Android/sdk/platform-tools" ]]; then
+    export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
+fi
+
+if [[ -a "$HOME/Library/Android/sdk/emulator" ]]; then
+    export PATH="$HOME/Library/Android/sdk/emulator:$PATH"
+fi
+
 # zstyle declarations
 zstyle ':completion:*' completer _complete _correct _approximate
 zstyle ':vcs_info:*' enable git  # I only use git
@@ -90,7 +100,6 @@ if [[ -d "/opt/homebrew/share/google-cloud-sdk/bin" ]]; then
 fi
 
 # dev aliases
-alias ll="ls -FlaGh --color=always"
 alias resource="source ~/.zshrc"
 alias mkdir="mkdir -p"
 
@@ -145,18 +154,31 @@ function git-prune-branches() {
 }
 
 # docker aliases
-alias dc="docker-compose"
-alias dcb="docker-compose build"
-alias dcbp="docker-compose build --pull"
-alias dcr="docker-compose run --rm"
-alias dcu="docker-compose up"
+alias dc="docker compose"
+alias dcb="docker compose build"
+alias dcbp="docker compose build --pull"
+alias dcr="docker compose run --rm"
+alias dcu="docker compose up"
 
 # tool aliases
 if [[ -x "$(command -v nvim)" ]]; then
     alias vim="nvim"
 fi
 
+if [[ -x "$(command -v highlight)" ]]; then
+    alias ccat='highlight -O ansi --force'
+    alias clat='highlight -lO ansi --force'
+fi
+
 # private aliases
 if [[ -a "$HOME/.zsh/private.zsh" ]]; then
     source $HOME/.zsh/private.zsh
+fi
+
+# What OS are we running?
+if [[ $(uname) == "Darwin" ]]; then
+    source $HOME/.zsh/mac.zsh
+else
+    # Assume *nix of some kind
+    source $HOME/.zsh/linux.zsh
 fi
