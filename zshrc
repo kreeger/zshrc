@@ -39,19 +39,33 @@ if [[ -a "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completio
     source "/usr/local/Caskroom/google-cloud-sdk/latest/google-cloud-sdk/completion.zsh.inc"
 fi
 
+# rust additions
+if [[ -a "$HOME/.cargo/bin" ]]; then
+    export PATH="$HOME/.cargo/bin:$PATH"
+fi
+
+# krew additions
+if [[ -a "$HOME/.krew" ]]; then
+    export PATH="${KREW_ROOT:-$HOME/.krew}/bin:$PATH"
+fi
+
 # pythonpath additions
 if [[ -a "$HOME/src/oreilly/tools/chassis" ]]; then
     export PYTHONPATH="${PYTHONPATH}:$HOME/src/oreilly/tools/chassis"
 fi
 
 # Android SDK additions
-
 if [[ -a "$HOME/Library/Android/sdk/platform-tools" ]]; then
     export PATH="$HOME/Library/Android/sdk/platform-tools:$PATH"
 fi
 
 if [[ -a "$HOME/Library/Android/sdk/emulator" ]]; then
     export PATH="$HOME/Library/Android/sdk/emulator:$PATH"
+fi
+
+# Local bin additions
+if [[ -d "$HOME/bin" ]]; then
+    export PATH="$HOME/bin:$PATH"
 fi
 
 # zstyle declarations
@@ -153,12 +167,35 @@ function git-prune-branches() {
     git branch -r | awk '{print $1}' | egrep -v -f /dev/fd/0 <(git branch -vv | grep $REMOTE) | awk '{print $1}' | xargs git branch -d
 }
 
+# kubernetes functions
+function k8s_ns_stuck() {
+    NAMESPACE=$1
+    kubectl api-resources --verbs=list --namespaced -o name | xargs -n 1 kubectl get --show-kind --ignore-not-found -n $NAMESPACE
+}
+function k8s_ns_nuke() {
+    NAMESPACE=$1
+    kubectl get namespace "$NAMESPACE" -o json \
+        | tr -d "\n" | sed "s/\"finalizers\": \[[^]]\+\]/\"finalizers\": []/" \
+        | kubectl replace --raw /api/v1/namespaces/$NAMESPACE/finalize -f -
+}
+
 # docker aliases
 alias dc="docker compose"
 alias dcb="docker compose build"
 alias dcbp="docker compose build --pull"
 alias dcr="docker compose run --rm"
 alias dcu="docker compose up"
+
+# Wireguard CLI aliases
+alias vpnup="sudo wg-quick up wg0"
+alias vpndown="sudo wg-quick down wg0"
+
+# Kubernetes aliases
+alias k="kubectl"
+
+# Ansible aliases
+alias apb="ansible-playbook"
+alias av="ansible-vault"
 
 # tool aliases
 if [[ -x "$(command -v nvim)" ]]; then
