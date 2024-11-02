@@ -1,3 +1,3 @@
 # kreeger's zsh config
 
-The files and submodules contained within are my zsh configuration "from scratch" (with some submodule-based plugins thrown in for good measure).
+I've moved this to https://git.kree.gr/kreeger/zshrc.
